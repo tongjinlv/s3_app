@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <linux/input.h>
+#include <stdlib.h>
+
+struct input_event buff; 
+int fd; 
+int read_nu; 
+pthread_t time_id;
+volatile int iTimeCount = 0;
+volatile char iTimeCountEn= 0;
+void time_base(void *arg)
+{ 
+    char start= 0;
+    system("/root/shell/sysinit.sh");
+    system("/root/shell/run.sh");
+    while(1)
+    {
+       if(iTimeCountEn)iTimeCount++;
+       else 
+       	{
+       		if(iTimeCount)printf("pase=%d\r\n" ,iTimeCount);
+       		if(iTimeCount>4000){iTimeCount=0;if(start)system("/root/shell/run.sh");else system("/root/shell/update.sh");start=!start;}
+       		if(iTimeCount>100){iTimeCount=0;}
+                iTimeCount=0;
+       	}
+	   usleep(100);
+    }
+}
+int main(int argc, char *argv[])
+{
+	int i = 0;
+	fd = open("/dev/input/event1", O_RDONLY); //may be the powerkey is /dev/input/event1
+	if (fd < 0) { 
+		perror("can not open device usbkeyboard!"); 
+		exit(1); 
+	} 
+	pthread_create(&time_id,NULL,(void *)time_base,NULL);
+	printf("--fd:%d--\n",fd);
+	while(1)
+	{
+		while(read(fd,&buff,sizeof(struct input_event))==0);
+		printf("time %u:%u type:%d code:%d value:%d\n",buff.time.tv_sec,buff.time.tv_usec,buff.type,buff.code,buff.value); 
+        if(buff.type==1)
+        {
+        	if(buff.value==1)iTimeCountEn=1;
+        	else iTimeCountEn=0;
+        }
+	} 
+	close(fd); 
+	return 1;
+}

@@ -1,0 +1,17 @@
+TARGET_PATH:= $(call my-dir)
+include $(CLEAR_VARS)
+
+TARGET_INC:=$(TARGET_TOP)/core/include \
+	    $(TARGET_TOP)/linux-3.4/include \
+            $(TARGET_TOP)/bootloader/u-boot-2011.09/arch/arm/include
+TARGET_SRC:= demo_gpio.c
+TARGET_CPPFLAGS += -fPIC -Wall
+TARGET_CFLAGS += -fPIC -Wall
+TARGET_MODULE := demo_gpio
+TARGET_LDFLAGS := \
+	-lcutils \
+	-lutils \
+	-ltinyalsa \
+	-lpthread \
+
+include $(BUILD_BIN)
