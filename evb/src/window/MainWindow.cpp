@@ -1206,7 +1206,7 @@ void CdrMain::keyProc(int keyCode, int isLongPress)
 		}
 		return;
 	}
-	if(mPM->getStandby_status()){ //ÏûÏ¢´¦ÀíÊ±£¬¹ØÆÁÇé¿öÄ¬ÈÏ·¢ËÍpower¼ü
+	if(mPM->getStandby_status()){ //ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½Ï·ï¿½ï¿½ï¿½powerï¿½ï¿½
 		#if 1
 		mPM->standbyOver();
 		isAutoShutdownEnabled = true;
@@ -1648,10 +1648,9 @@ void CdrMain::stopPreviewOutside(int flag)
 
 int CDRMain(int argc, const char *argv[], CdrMain* cdrMain)
 {
-	struct timespec measureTime1;
+    struct timespec measureTime1;
 	clock_gettime(CLOCK_MONOTONIC, &measureTime1);
 	db_msg("Test Time: int CDRMain time is %ld secs, %ld nsecs\n", measureTime1.tv_sec, measureTime1.tv_nsec);
-	
 	if(cdrMain->createMainWindows() < 0) {
 		delete cdrMain;
 		return -1;
@@ -1664,11 +1663,29 @@ int CDRMain(int argc, const char *argv[], CdrMain* cdrMain)
 	db_msg("Test Time: after initStage2 time is %ld secs, %ld nsecs\n", measureTime1.tv_sec, measureTime1.tv_nsec);
 
 	cdrMain->msgLoop();
-
+	db_msg("Test Time: int CDRMain time is %ld secs, %ld nsecs\n", measureTime1.tv_sec, measureTime1.tv_nsec);
 	delete cdrMain;
 	return 0;
 }
 
+int myMain(int args, const char* argv[])
+{
+	printf("\n");
+	ZETA_RECT rect;
+	rect.x = 0; 
+	rect.y = 0; 
+	rect.w = 1920; 
+	rect.h = 1080;
+	zeta::ZetaCamera* ZetaCamera = new zeta::ZetaCamera(rect, 0);
+	system("echo 0 > /sys/class/android_usb/android0/enable");
+	system("echo 1f3a > /sys/class/android_usb/android0/idVendor");
+	system("echo 100e > /sys/class/android_usb/android0/idProduct");
+	system("echo webcam,adb > /sys/class/android_usb/android0/functions");
+	system("echo 1 > /sys/class/android_usb/android0/enable");
+	system("chmod 0666 /dev/video1");
+	ZetaCamera->setUvcMode(1);
+	while(1);
+}
 #ifdef _MGRM_THREADS
 #include <minigui/dti.c>
 #endif

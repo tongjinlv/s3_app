@@ -1,0 +1,15 @@
+TARGET_PATH:= $(call my-dir)
+include $(CLEAR_VARS)
+
+#TARGET_INC:= $(TARGET_TOP)/core/include/cedar \
+TARGET_INC:= $(TARGET_TOP)/linux-3.4/include 
+TARGET_SRC:= main.c
+TARGET_CPPFLAGS += -fPIC -Wall
+TARGET_CFLAGS += -fPIC -Wall
+TARGET_MODULE := kevin
+TARGET_LDFLAGS := \
+	-lcutils \
+	-lutils \
+	-lpthread \
+
+include $(BUILD_BIN)

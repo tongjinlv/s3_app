@@ -1,0 +1,1 @@
+adb push send /root/nande/bin/

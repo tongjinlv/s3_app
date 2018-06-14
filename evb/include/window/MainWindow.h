@@ -22,7 +22,7 @@
 #define ID_TIMER_KEY_1 105
 
 
-
+extern int myMain(int args, const char* argv[]);
 
 static bool wifi_led_flag ;
 static bool screen_on_off_flag ;
@@ -35,14 +35,8 @@ MiniGUIAppMain (int args, const char* argv[], CdrMain*); \
 int main_entry (int args, const char* argv[]) \
 { \
 	printf("main entry\n"); \
+    myMain(args,argv); \
     int iRet = 0; \
-	CdrMain *cdrMain = new CdrMain(); \
-	cdrMain->initPreview(NULL); \
-    if (InitGUI (args, argv) != 0) { \
-        return 1; \
-    } \
-    iRet = MiniGUIAppMain (args, argv, cdrMain); \
-    TerminateGUI (iRet); \
     return iRet; \
 } \
 int MiniGUIAppMain

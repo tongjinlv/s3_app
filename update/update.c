@@ -67,7 +67,7 @@ void keyworker(void *arg)
 	}
 	while(1)
 	{
-        sleep(1);
+        //sleep(1);
 		while(read(fdkey,&buff,sizeof(struct input_event))==0);
         if(buff.type==1)if(buff.value==1){if(KeyPlay==0)printf("KeyPlay Touch Down....\n");KeyPlay=1;}
         if(buff.type==1)if(buff.value==0){if(KeyPlay==1)printf("KeyPlay Touch Up......\n");KeyPlay=0;}

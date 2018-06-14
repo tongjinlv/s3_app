@@ -1,0 +1,30 @@
+TARGET_PATH :=$(call my-dir)
+
+include $(ENV_CLEAR)
+
+#TARGET_LDFLAGS += -lminigui_ths \
+#       -lutils \
+#       -lrt \
+#       -lpthread \
+#       -law_net \
+#       -lwifi_ap       
+
+TARGET_CPPFLAGS += -g
+
+#strict compile option
+#TARGET_CFLAGS += -Werror  -Wall -Wno-unused-parameter -Wno-reorder
+TARGET_CFLAGS += -lpthread
+compile_date=$(shell date "+%Y-%m-%d %H:%M:%S")
+#compile_version=$(addprefix $(addsuffix $(compile_date), "), ")
+TARGET_CFLAGS += -DCOMPILE_VERSION="\"$(USER)@$(TARGET_PRODUCT) $(compile_date)\""
+
+TARGET_SRC := main.c
+
+TARGET_INC := $(TARGET_PATH)
+
+#TARGET_SHARED_LIB += libcutils libinterface librecorder libmp4v2 libglog libmediaplayer        
+
+TARGET_MODULE := inotify
+
+include $(BUILD_BIN)
+

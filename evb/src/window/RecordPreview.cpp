@@ -206,11 +206,11 @@ int RecordPreview::createWindow(void)
 }
 
 RecordPreview::RecordPreview(CdrMain *cdrMain)
-	: mCdrMain(cdrMain),
-	mRPWindowState(STATUS_RECORDPREVIEW),
-	mOldRPWindowState(STATUS_RECORDPREVIEW),
-	show_statusbar(false), 
-	isRecorder(false)
+//	: mCdrMain(cdrMain),
+//	mRPWindowState(STATUS_RECORDPREVIEW),
+//	mOldRPWindowState(STATUS_RECORDPREVIEW),
+//	show_statusbar(false), 
+//	isRecorder(false)
 	
 {
 	db_msg("by hero nothing RecordPreview\n");
@@ -227,8 +227,8 @@ void RecordPreview::init(void)
 	ZETA_RECT rect;
 	rect.x = 0; 
 	rect.y = 0; 
-	rect.w = 480; 
-	rect.h = 854;
+	rect.w = 1920; 
+	rect.h = 1080;
 	mZetaCamera = new zeta::ZetaCamera(rect, 0);
 	initCamera();	
 }
@@ -427,7 +427,7 @@ void RecordPreview::HdmiInitCamer()
 	zeta::ZetaDisplay *mZD = mZetaCamera->getDisp();
 	mZD->close();
 	stopPreview();
-	//mZetaCamera->initCamera(1920, 1080, 640, 360, 60, 10, 1, 0);
+	mZetaCamera->initCamera(1920, 1080, 640, 360, 60, 10, 1, 0);
 	mZetaCamera->setPreviewRotation(0);
 	startPreview();
 }

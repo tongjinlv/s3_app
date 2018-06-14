@@ -1,0 +1,14 @@
+TARGET_PATH:= $(call my-dir)
+include $(CLEAR_VARS)
+
+TARGET_INC:= $(TARGET_TOP)/core/include/cedar
+TARGET_SRC:= revice.c
+TARGET_CPPFLAGS += -fPIC -Wall
+TARGET_CFLAGS += -fPIC -Wall
+TARGET_MODULE := revice
+TARGET_LDFLAGS := \
+	-lcutils \
+	-lutils \
+	-lpthread \
+
+include $(BUILD_BIN)
